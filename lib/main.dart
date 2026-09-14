@@ -40,9 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                 );
               },
             ),
-
             const SizedBox(height: 30),
-
             const Text(
               'Learn Flutter the fun way!',
               style: TextStyle(
@@ -52,23 +50,14 @@ class WelcomeScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-
             const SizedBox(height: 30),
-
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const QuizScreen(),
-                  ),
-                );
-              },
+              onPressed: null,
               child: const Text(
                 'Start Quiz',
                 style: TextStyle(fontSize: 18),
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -76,72 +65,79 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-// ---------------- QUIZ SCREEN ----------------
+// ---------------- QUESTION MODEL ----------------
 
-class QuizScreen extends StatelessWidget {
-  const QuizScreen({super.key});
+class Question {
+  final String question;
+  final List<String> choices;
+  final int correctAnswer;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Quiz'),
-        backgroundColor: const Color.fromARGB(255, 72, 0, 144),
-        foregroundColor: Colors.white,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'What is Flutter?',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-
-              const SizedBox(height: 30),
-
-              ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Correct answer!'),
-                    ),
-                  );
-                },
-                child: const Text('A UI framework'),
-              ),
-
-              ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Try again!'),
-                    ),
-                  );
-                },
-                child: const Text('A database'),
-              ),
-
-              ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Try again!'),
-                    ),
-                  );
-                },
-                child: const Text('An operating system'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  const Question({
+    required this.question,
+    required this.choices,
+    required this.correctAnswer,
+  });
 }
+
+const List<Question> questions = [
+  Question(
+    question: 'What is Flutter?',
+    choices: [
+      'A programming language',
+      'A UI framework',
+      'A database',
+      'An operating system',
+    ],
+    correctAnswer: 1,
+  ),
+  Question(
+    question: 'Which language is used to develop Flutter apps?',
+    choices: [
+      'Java',
+      'Python',
+      'Dart',
+      'C++',
+    ],
+    correctAnswer: 2,
+  ),
+  Question(
+    question: 'What is the purpose of a StatefulWidget?',
+    choices: [
+      'To store files',
+      'To display images only',
+      'To create a database',
+      'To manage changing data',
+    ],
+    correctAnswer: 3,
+  ),
+  Question(
+    question: 'What are the main building blocks of Flutter UIs?',
+    choices: [
+      'Blocks',
+      'Components',
+      'Widgets',
+      'Functions',
+    ],
+    correctAnswer: 2,
+  ),
+  Question(
+    question: 'Which widget should you try to use more often?',
+    choices: [
+      'Both are equally good',
+      'StatelessWidget',
+      'StatefulWidget',
+      'None of the above',
+    ],
+    correctAnswer: 1,
+  ),
+  Question(
+    question: 'What happens if you change data in a StatelessWidget?',
+    choices: [
+      'The app automatically updates',
+      'The UI is updated',
+      'The app crashes',
+      'It does not update automatically',
+    ],
+    correctAnswer: 3,
+  ),
+];
