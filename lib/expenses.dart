@@ -30,12 +30,12 @@ class _ExpensesState extends State<Expenses> {
   ];
 
   void _openAddExpenseOverlay() {
-   showDialog(
-    context: context,
-    builder: (ctx) => NewExpense(
-    onAddExpense: _addExpense,
-  ),
-);
+    showDialog(
+      context: context,
+      builder: (ctx) => NewExpense(
+        onAddExpense: _addExpense,
+      ),
+    );
   }
 
   void _addExpense(Expense expense) {
@@ -46,10 +46,13 @@ class _ExpensesState extends State<Expenses> {
 
   void _removeExpense(Expense expense) {
     final expenseIndex = _registeredExpenses.indexOf(expense);
+
     setState(() {
       _registeredExpenses.remove(expense);
     });
+
     ScaffoldMessenger.of(context).clearSnackBars();
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 3),
@@ -58,7 +61,10 @@ class _ExpensesState extends State<Expenses> {
           label: 'Undo',
           onPressed: () {
             setState(() {
-              _registeredExpenses.insert(expenseIndex, expense);
+              _registeredExpenses.insert(
+                expenseIndex,
+                expense,
+              );
             });
           },
         ),
@@ -66,10 +72,27 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
+  double get _totalExpenses {
+    double total = 0;
+
+    for (final expense in _registeredExpenses) {
+      total += expense.amount;
+    }
+
+    return total;
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget mainContent = const Center(
-      child: Text('No expenses found. Start adding some!'),
+      child: Text(
+        'No expenses found.\nStart adding some!',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.grey,
+        ),
+      ),
     );
 
     if (_registeredExpenses.isNotEmpty) {
@@ -81,23 +104,168 @@ class _ExpensesState extends State<Expenses> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter ExpenseTracker'),
-        actions: [
-          IconButton(
-            onPressed: _openAddExpenseOverlay,
-            icon: const Icon(Icons.add),
+        title: const Text(
+          'Expense Tracker',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
       ),
-      body: Column(
-        children: [
-          const Text('The chart'),
-          Expanded(
-            child: mainContent,
-          ),
-        ],
+
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          16,
+          16,
+          80,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // =========================
+            // WELCOME TEXT
+            // =========================
+
+            const Text(
+              'Welcome back! 👋',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 4),
+
+            const Text(
+              'Here is your spending overview.',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // =========================
+            // TOTAL EXPENSE CARD
+            // =========================
+
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.account_balance_wallet_outlined,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onPrimaryContainer,
+                      ),
+
+                      const SizedBox(width: 8),
+
+                      Text(
+                        'TOTAL SPENT',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimaryContainer,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  Text(
+                    '₱${_totalExpenses.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimaryContainer,
+                    ),
+                  ),
+
+                  const SizedBox(height: 4),
+
+                  Text(
+                    'Your current recorded expenses',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimaryContainer
+                          .withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // =========================
+            // RECENT EXPENSES TITLE
+            // =========================
+
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Recent Expenses',
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                Text(
+                  '${_registeredExpenses.length} items',
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+
+            // =========================
+            // EXPENSE LIST
+            // =========================
+
+            Expanded(
+              child: mainContent,
+            ),
+          ],
+        ),
       ),
-      
+
+      // =========================
+      // ADD EXPENSE BUTTON
+      // =========================
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _openAddExpenseOverlay,
+        icon: const Icon(Icons.add),
+        label: const Text('Add Expense'),
+      ),
     );
   }
 }
