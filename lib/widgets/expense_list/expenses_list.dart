@@ -8,14 +8,20 @@ class ExpensesList extends StatelessWidget {
     super.key,
     required this.expenses,
     required this.onRemoveExpense,
+    this.shrinkWrap = false,
   });
 
   final List<Expense> expenses;
   final void Function(Expense expense) onRemoveExpense;
+  final bool shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: shrinkWrap,
+      physics: shrinkWrap
+          ? const NeverScrollableScrollPhysics()
+          : null,
       itemCount: expenses.length,
       itemBuilder: (ctx, index) => Dismissible(
         key: ValueKey(expenses[index]),

@@ -38,12 +38,12 @@ class Chart extends StatelessWidget {
       builder: (context, constraints) {
         final isWideScreen = constraints.maxWidth >= 600;
 
-        final chartHeight = isWideScreen ? 220.0 : 180.0;
+        final chartHeight = isWideScreen ? 220.0 : 150.0;
 
         return Container(
-          margin: EdgeInsets.all(isWideScreen ? 20 : 16),
+          margin: EdgeInsets.all(isWideScreen ? 20 : 12),
           padding: EdgeInsets.symmetric(
-            vertical: isWideScreen ? 20 : 16,
+            vertical: isWideScreen ? 20 : 12,
             horizontal: isWideScreen ? 16 : 8,
           ),
           width: double.infinity,
