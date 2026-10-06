@@ -4,6 +4,7 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expense_list/expenses_list.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
+import 'package:expense_tracker/widgets/expense_summary_card.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -159,70 +160,10 @@ class _ExpensesState extends State<Expenses> {
                     // TOTAL EXPENSE CARD
                     // =========================
 
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primaryContainer,
+                    ExpenseSummaryCard(
+                      totalExpenses: _totalExpenses,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.account_balance_wallet_outlined,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'TOTAL SPENT',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 2),
-
-                          Text(
-                            '₱${_totalExpenses.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                          ),
-
-                          const SizedBox(height: 2),
-
-                          Text(
-                            'Your current recorded expenses',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer
-                                  .withOpacity(0.7),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
+                      
                     const SizedBox(height: 16),
 
                     // =========================

@@ -111,16 +111,7 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   IconData _categoryIcon(Category category) {
-    switch (category) {
-      case Category.food:
-        return Icons.restaurant;
-      case Category.travel:
-        return Icons.directions_car;
-      case Category.leisure:
-        return Icons.sports_esports;
-      case Category.work:
-        return Icons.work;
-    }
+  return categoryIcons[category]!;
   }
 
   String _formatDate(DateTime date) {
