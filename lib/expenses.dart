@@ -5,6 +5,8 @@ import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expense_list/expenses_list.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:expense_tracker/widgets/expense_summary_card.dart';
+import 'package:expense_tracker/widgets/expense_list/expense_header.dart';
+
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -163,7 +165,7 @@ class _ExpensesState extends State<Expenses> {
                     ExpenseSummaryCard(
                       totalExpenses: _totalExpenses,
                       ),
-                      
+
                     const SizedBox(height: 16),
 
                     // =========================
@@ -199,7 +201,9 @@ class _ExpensesState extends State<Expenses> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      _buildExpenseHeader(),
+                                      ExpenseHeader(
+                                        expenseCount: _registeredExpenses.length,
+                                      ),
 
                                       const SizedBox(height: 12),
 
@@ -230,7 +234,9 @@ class _ExpensesState extends State<Expenses> {
                                   // EXPENSE HEADER
                                   // =========================
 
-                                  _buildExpenseHeader(),
+                                  ExpenseHeader(
+                                    expenseCount: _registeredExpenses.length,
+                                  ),
 
                                   const SizedBox(height: 12),
 
@@ -271,28 +277,6 @@ class _ExpensesState extends State<Expenses> {
         icon: const Icon(Icons.add),
         label: const Text('Add Expense'),
       ),
-    );
-  }
-
-  Widget _buildExpenseHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text(
-          'Recent Expenses',
-          style: TextStyle(
-            fontSize: 19,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          '${_registeredExpenses.length} items',
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 13,
-          ),
-        ),
-      ],
     );
   }
 }
